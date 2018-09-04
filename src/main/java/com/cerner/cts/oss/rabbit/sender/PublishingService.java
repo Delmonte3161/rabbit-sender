@@ -29,7 +29,7 @@ public class PublishingService {
 		Integer publishedCount = 0;
 		List<IngestionEvent> events = getEvents(count);
 		for (IngestionEvent ingestionEvent : events) {
-			log.info("Sending {}", ingestionEvent);
+			log.debug("Sending {}", ingestionEvent);
 			if (!publisher.publish(ingestionEvent))
 				log.warn("Could not send: {}", ingestionEvent);
 			else

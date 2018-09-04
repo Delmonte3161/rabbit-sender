@@ -11,7 +11,9 @@ import com.cerner.cts.oss.mass.device.contract.status.StatusCode;
 import com.cerner.cts.oss.mass.device.contract.status.StatusResource;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class Controller {
 			@RequestParam(name = "count", required = false, defaultValue = "10") Integer count) {
 		StatusResource statusResource = new StatusResource();
 
+		log.info("Sending messages!");
 		service.send(count);
 
 		Status status = new Status();
