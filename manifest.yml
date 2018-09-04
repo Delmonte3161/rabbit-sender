@@ -1,0 +1,17 @@
+---
+applications:
+- name: rabbit-sender
+  buildpack: java_buildpack_offline
+  instances: 1
+  memory: 1280M
+  routes:
+  - route: rabbit-sender.dev.internal.cernermass.com
+  timeout: 180
+  path: ./target/rabbit-sender-SNAPSHOT.jar
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:/dev/./urandom
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '[enabled: false]'
+    SPRING_PROFILES_ACTIVE: cloud, dev
+  services:
+  - config-server
+  - rabbitmq-cluster
