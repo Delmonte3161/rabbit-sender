@@ -19,7 +19,7 @@ public class Controller {
 	/**
 	 * @param record
 	 */
-	@PostMapping(path = "/send", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/send", produces = MediaType.TEXT_PLAIN_VALUE)
 	public String send(
 			@RequestParam(name = "count", required = false, defaultValue = "10") Integer count) {
 		log.info("Sending messages!");
