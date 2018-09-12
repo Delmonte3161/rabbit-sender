@@ -9,11 +9,6 @@ import java.util.Map;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import com.cerner.cts.oss.mass.device.contract.reference.DeviceServiceConstants.RelationshipIdentifiers;
-import com.cerner.cts.oss.mass.ingest.contract.IngestionEvent;
-import com.cerner.cts.oss.mass.ingest.contract.IngestionServiceConstants.Source;
-import com.cerner.cts.oss.mass.ingest.contract.IngestionServiceConstants.TargetDomain;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,12 +36,12 @@ public class PublishingService {
 	private List<IngestionEvent> getEvents(Integer count) {
 		List<IngestionEvent> eventsOut = new ArrayList<>();
 		for (int i = 0; i < count; i++) {
-			IngestionEvent deviceEvent = new IngestionEvent();
+			IngestionEvent event = new IngestionEvent();
 
-			deviceEvent.setSourceId(Source.HPNA);
-			deviceEvent.setTenantId("TestTenant");
-			deviceEvent.setTargetDomain(TargetDomain.DEVICE);
-			deviceEvent.setForeignId("ForeignId-" + i);
+			event.setSourceId("TestSource");
+			event.setTenantId("TestTenant");
+			event.setTargetDomain("TestTarget");
+			event.setForeignId("ForeignId-" + i);
 
 			String hostname = "test-device-" + i;
 			String domain = "test-domain.com";
@@ -54,15 +49,15 @@ public class PublishingService {
 
 			// Set device identifiers up in relationships map
 			Map<String, Object> relationships = new HashMap<>();
-			relationships.put(RelationshipIdentifiers.Device.NAME, hostname);
-			relationships.put(RelationshipIdentifiers.Device.DOMAIN, domain);
-			relationships.put(RelationshipIdentifiers.Device.PRIMARY_IP, ip);
-			deviceEvent.setRelationships(relationships);
+			relationships.put("name", hostname);
+			relationships.put("domain:", domain);
+			relationships.put("ip", ip);
+			event.setRelationships(relationships);
 
 			// Move all source fields to payload
 			Map<String, Object> devicePayload = new HashMap<>();
 			devicePayload.put("deviceType", "Network");
-			devicePayload.put("deviceId", deviceEvent.getForeignId());
+			devicePayload.put("deviceId", event.getForeignId());
 			devicePayload.put("flashMemory", 4);
 			devicePayload.put("freePorts", 10);
 			devicePayload.put("geographicalLocation", "Bahamas");
@@ -81,8 +76,8 @@ public class PublishingService {
 			devicePayload.put("totalPorts", 12);
 			devicePayload.put("vendor", "Hot Dog");
 
-			deviceEvent.setPayload(devicePayload);
-			eventsOut.add(deviceEvent);
+			event.setPayload(devicePayload);
+			eventsOut.add(event);
 		}
 		return eventsOut;
 	}

@@ -5,8 +5,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import com.cerner.cts.oss.mass.ingest.contract.IngestionEvent;
-
 import lombok.RequiredArgsConstructor;
 
 @Component
